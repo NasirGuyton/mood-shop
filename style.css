@@ -24,3 +24,11 @@ body {
     padding:0.5em;
     text-decoration:none;
   }
+
+  .items {
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+  }
