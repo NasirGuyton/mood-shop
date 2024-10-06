@@ -19,6 +19,25 @@ const addItemToCart = (id, price) => {
     cart.push({ id, price, qty: 1 });
 };
 
+// Function to display the cart
+const displayCart = () => {
+    let cartStr = '';
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i];
+        cartStr += `<li>
+            <span>${item.id}</span>
+            <input type="number" value="${item.qty}" class="input-qty" data-id="${item.id}">
+            <span>$${item.price.toFixed(2)}</span>
+            <span>$${(item.price * item.qty).toFixed(2)}</span>
+            <button class="button-add" data-id="${item.id}">+</button>
+            <button class="button-sub" data-id="${item.id}">-</button>
+        </li>`;
+    }
+    // Get the cart element and set its inner HTML
+    const cartItems = document.querySelector('#cart-items');
+    cartItems.innerHTML = cartStr;
+};
+
 // Loop through the data to create item elements
 for (let i = 0; i < data.length; i += 1) {
     // Create a new div element for each item
@@ -60,6 +79,7 @@ document.body.addEventListener('click', (e) => {
         const itemId = e.target.dataset.id; // Get item ID from button
         const itemPrice = parseFloat(e.target.dataset.price); // Get item price
         addItemToCart(itemId, itemPrice); // Call function to add item to cart
+        displayCart(); // Display the cart!
         console.log(cart); // Log the cart to see the current items
     }
 });
