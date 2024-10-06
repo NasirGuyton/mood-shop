@@ -1,13 +1,13 @@
-// Import data from the data.js file
+
 import data from './data.js';
 
-// Select the container where items will be displayed
+
 const itemsContainer = document.querySelector('#items');
 
-// Initialize an empty cart
+
 const cart = [];
 
-// Function to get the total cost of the cart
+
 const getCartTotal = () => {
     let total = 0;
     for (let i = 0; i < cart.length; i += 1) {
@@ -17,7 +17,7 @@ const getCartTotal = () => {
     return total.toFixed(2);
 };
 
-// Function to display the cart
+
 const displayCart = () => {
     let cartStr = '';
     for (let i = 0; i < cart.length; i += 1) {
@@ -32,17 +32,17 @@ const displayCart = () => {
         </li>`;
     }
     
-    // Get the total cost in the cart
+
     const cartTotal = getCartTotal();
-    // Append a li tag at the end of the cartStr with the total
+
     cartStr += `<li>Total: $${cartTotal}</li>`;
 
-    // Get the cart element and set its inner HTML
+
     const cartItems = document.querySelector('#cart-items');
     cartItems.innerHTML = cartStr;
 };
 
-// Function to add items to the cart
+
 const addItemToCart = (id, price) => {
     for (let i = 0; i < cart.length; i += 1) {
         if (cart[i].id === id) {
@@ -53,7 +53,7 @@ const addItemToCart = (id, price) => {
     cart.push({ id, price, qty: 1 });
 };
 
-// Loop through the data to create item elements
+
 for (let i = 0; i < data.length; i += 1) {
     const newDiv = document.createElement('div');
     newDiv.className = 'item';
@@ -82,7 +82,7 @@ for (let i = 0; i < data.length; i += 1) {
     itemsContainer.appendChild(newDiv);
 }
 
-// Function to update the cart
+
 const updateCart = (id, val) => {
     for (let i = 0; i < cart.length; i += 1) {
         const item = cart[i];
@@ -96,7 +96,7 @@ const updateCart = (id, val) => {
     }
 };
 
-// Event listener for click events
+
 document.body.addEventListener('click', (e) => {
     if (e.target.matches('.add-to-cart')) {
         addItemToCart(e.target.dataset.id, parseFloat(e.target.dataset.price));
@@ -112,7 +112,7 @@ document.body.addEventListener('click', (e) => {
     }
 });
 
-// Event listener for change events on input fields
+
 document.body.addEventListener('change', (e) => {
     if (e.target.matches('.input-qty')) {
         const id = e.target.dataset.id;
@@ -122,7 +122,7 @@ document.body.addEventListener('change', (e) => {
     }
 });
 
-// Event listener for keydown events on input fields
+
 document.body.addEventListener('keydown', (e) => {
     if (e.target.matches('.input-qty') && e.key === "Enter") {
         const id = e.target.dataset.id;
@@ -132,7 +132,7 @@ document.body.addEventListener('keydown', (e) => {
     }
 });
 
-// Function to add to cart (for button-add)
+
 const addToCart = (id) => {
     for (let i = 0; i < cart.length; i += 1) {
         const item = cart[i];
@@ -143,7 +143,7 @@ const addToCart = (id) => {
     }
 };
 
-// Function to remove from cart (for button-sub)
+
 const removeFromCart = (id) => {
     for (let i = 0; i < cart.length; i += 1) {
         const item = cart[i];
