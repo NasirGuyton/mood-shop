@@ -64,7 +64,7 @@ for (let i = 0; i < data.length; i += 1) {
     // Create and append the "Add to Cart" button
     const button = document.createElement('button');
     button.className = 'add-to-cart'; // Ensure the button has the correct class
-    button.dataset.id = data[i].name; // Set data-id attribute
+    button.dataset.id = data[i].id; // Set data-id attribute to the item's id
     button.dataset.price = data[i].price; // Set data-price attribute
     button.innerHTML = "Add to Cart";
     newDiv.appendChild(button);
@@ -73,13 +73,43 @@ for (let i = 0; i < data.length; i += 1) {
     itemsContainer.appendChild(newDiv);
 }
 
-// Event listener for adding items to the cart
+// Event listener for click events
 document.body.addEventListener('click', (e) => {
     if (e.target.matches('.add-to-cart')) {
-        const itemId = e.target.dataset.id; // Get item ID from button
-        const itemPrice = parseFloat(e.target.dataset.price); // Get item price
-        addItemToCart(itemId, itemPrice); // Call function to add item to cart
-        displayCart(); // Display the cart!
-        console.log(cart); // Log the cart to see the current items
+        addItemToCart(e.target.dataset.id, parseFloat(e.target.dataset.price)); // Ensure price is a number
+        displayCart();
+    } else if (e.target.matches('.button-add')) {
+        const id = e.target.dataset.id; // Get item id
+        addToCart(id); // Add to cart
+        displayCart(); // Update display
+    } else if (e.target.matches('.button-sub')) {
+        const id = e.target.dataset.id; // Get item id
+        removeFromCart(id); // Call remove from cart
+        displayCart(); // Display the cart
     }
 });
+
+// Function to add to cart (for button-add)
+const addToCart = (id) => {
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i];
+        if (id === item.id) {
+            item.qty += 1; // Increase quantity
+            return; // Exit function
+        }
+    }
+};
+
+// Function to remove from cart (for button-sub)
+const removeFromCart = (id) => {
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i];
+        if (id === item.id) {
+            item.qty -= 1; // Decrease quantity
+            if (item.qty === 0) {
+                cart.splice(i, 1); // Remove item if qty is 0
+            }
+            return; // Exit function
+        }
+    }
+};
