@@ -1,46 +1,65 @@
-import data from './data.js'; // Ensure this is correct
+// Import data from the data.js file
+import data from './data.js'; // Ensure this path is correct
 
+// Select the container where items will be displayed
 const itemsContainer = document.querySelector('#items');
 
-// the length of our data determines how many times this loop goes around
+// Initialize an empty cart
+const cart = [];
+
+// Function to add items to the cart
+const addItemToCart = (id, price) => {
+    for (let i = 0; i < cart.length; i += 1) {
+        if (cart[i].id === id) {
+            cart[i].qty += 1; // Increase quantity if item already in cart
+            return; // Exit the function early
+        }
+    }
+    // If item is not in the cart, add it
+    cart.push({ id, price, qty: 1 });
+};
+
+// Loop through the data to create item elements
 for (let i = 0; i < data.length; i += 1) {
-    // create a new div element and give it a class name
+    // Create a new div element for each item
     const newDiv = document.createElement('div');
     newDiv.className = 'item';
 
-    // create an image element
+    // Create and append the image element
     const img = document.createElement('img');
     img.src = data[i].image;
     img.width = 300;
     img.height = 300;
-
-    // Add the image to the div
     newDiv.appendChild(img);
-    console.log(img); // Check the console!
 
-    // create a paragraph element for a description
-    const desc = document.createElement('P');
+    // Create and append the description element
+    const desc = document.createElement('p');
     desc.innerText = data[i].desc;
     newDiv.appendChild(desc);
 
-    // do the same thing for price
-    const price = document.createElement('P');
-    price.innerText = data[i].price;
+    // Create and append the price element
+    const price = document.createElement('p');
+    price.innerText = `$${data[i].price.toFixed(2)}`; // Format price
     newDiv.appendChild(price);
 
-    // Create the button inside the loop
+    // Create and append the "Add to Cart" button
     const button = document.createElement('button');
-    
-    // add a data-id name to the button
-    button.dataset.id = data[i].name;
-    
-    // creates a custom attribute called data-price. That will hold price for each element in the button
-    button.dataset.price = data[i].price;
+    button.className = 'add-to-cart'; // Ensure the button has the correct class
+    button.dataset.id = data[i].name; // Set data-id attribute
+    button.dataset.price = data[i].price; // Set data-price attribute
     button.innerHTML = "Add to Cart";
-    
-    // append the button to the div
     newDiv.appendChild(button);
-    
+
     // Append the new div to the items container
     itemsContainer.appendChild(newDiv);
 }
+
+// Event listener for adding items to the cart
+document.body.addEventListener('click', (e) => {
+    if (e.target.matches('.add-to-cart')) {
+        const itemId = e.target.dataset.id; // Get item ID from button
+        const itemPrice = parseFloat(e.target.dataset.price); // Get item price
+        addItemToCart(itemId, itemPrice); // Call function to add item to cart
+        console.log(cart); // Log the cart to see the current items
+    }
+});
