@@ -73,6 +73,21 @@ for (let i = 0; i < data.length; i += 1) {
     itemsContainer.appendChild(newDiv);
 }
 
+// Function to update the cart
+const updateCart = (id, val) => {
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i];
+        if (id === item.id) {
+            item.qty = val;
+            // If the value is less than 1, remove the item
+            if (item.qty < 1) {
+                cart.splice(i, 1);
+            }
+            return; // Exit function
+        }
+    }
+};
+
 // Event listener for click events
 document.body.addEventListener('click', (e) => {
     if (e.target.matches('.add-to-cart')) {
@@ -86,6 +101,28 @@ document.body.addEventListener('click', (e) => {
         const id = e.target.dataset.id; // Get item id
         removeFromCart(id); // Call remove from cart
         displayCart(); // Display the cart
+    }
+});
+
+// Event listener for change events on input fields
+document.body.addEventListener('change', (e) => {
+    if (e.target.matches('.input-qty')) {
+        const id = e.target.dataset.id; // Get the id
+        const value = parseInt(e.target.value); // Convert value to integer
+        updateCart(id, value); // Update cart
+        displayCart(); // Display the cart
+    }
+});
+
+// Event listener for keydown events on input fields
+document.body.addEventListener('keydown', (e) => {
+    if (e.target.matches('.input-qty')) {
+        if (e.key === "Enter") {
+            const id = e.target.dataset.id; // Get the id
+            const value = parseInt(e.target.value); // Convert value to integer
+            updateCart(id, value); // Update cart
+            displayCart(); // Display the cart
+        }
     }
 });
 
